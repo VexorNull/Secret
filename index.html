@@ -3,35 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text to Binary Encryptor & Decryptor</title>
-    <link rel="stylesheet" href="style.css">
+    <title>BinaryCipher Pro - Advanced Text & Binary Encryptor</title>
+    <!-- Favicon Link -->
     <link rel="icon" type="image/png" href="https://vexornull.github.io/favicon/favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
+    <div class="glow-bg"></div>
+
     <div class="container">
-        <h1>Binary Text Converter</h1>
-        <p class="subtitle">Encrypt plain text to 010101 and decrypt it back easily!</p>
+        <header>
+            <div class="logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <h1>BinaryCipher <span class="pro-badge">PRO</span></h1>
+            <p class="subtitle">Next-gen enterprise text-to-binary encryption suite</p>
+        </header>
 
         <div class="input-group">
-            <label for="inputText">Enter Text or Binary Code:</label>
-            <textarea id="inputText" placeholder="Type something here... (e.g., Hello or 01001000...)"></textarea>
+            <div class="label-wrapper">
+                <label for="inputText"><i class="fa-solid fa-terminal"></i> Input Data</label>
+                <span class="char-counter" id="inputCounter">0 chars</span>
+            </div>
+            <textarea id="inputText" placeholder="Enter plain text or binary codes (01001000)..." oninput="updateCounters()"></textarea>
         </div>
 
         <div class="btn-group">
-            <button id="encryptBtn" onclick="encryptText()">Encrypt to Binary</button>
-            <button id="decryptBtn" onclick="decryptText()">Decrypt to Text</button>
-            <button id="clearBtn" onclick="clearFields()">Clear</button>
+            <button id="encryptBtn" class="btn primary-btn" onclick="encryptText()">
+                <i class="fa-solid fa-lock"></i> Encrypt
+            </button>
+            <button id="decryptBtn" class="btn success-btn" onclick="decryptText()">
+                <i class="fa-solid fa-lock-open"></i> Decrypt
+            </button>
+            <button id="clearBtn" class="btn danger-btn" onclick="clearFields()">
+                <i class="fa-solid fa-rotate-right"></i> Reset
+            </button>
         </div>
 
-        <div class="input-group">
-            <label for="outputText">Result:</label>
-            <textarea id="outputText" readonly placeholder="Result will appear here..."></textarea>
+        <div class="input-group output-section">
+            <div class="label-wrapper">
+                <label for="outputText"><i class="fa-solid fa-square-binary"></i> Encrypted Result</label>
+                <button class="copy-btn" onclick="copyResult()" title="Copy to Clipboard">
+                    <i class="fa-regular fa-copy"></i> Copy
+                </button>
+            </div>
+            <textarea id="outputText" readonly placeholder="Encrypted output will appear here..."></textarea>
         </div>
+
+        <!-- Toast Notification -->
+        <div id="toast" class="toast">Copied to clipboard!</div>
 
         <!-- Credit Section -->
         <div class="footer">
-            <p>Created with ❤️ by <a href="https://instagram.com/vexornull" target="_blank">Tanveer Hussain</a></p>
+            <p>Engineered with ❤️ by <a href="https://instagram.com/vexornull" target="_blank">Tanveer Hussain</a></p>
         </div>
     </div>
 
