@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO Meta Tags -->
-    <title>BinaryCipher PRO - Advanced Text to Binary Encryptor & Decryptor Online</title>
-    <meta name="description" content="Free online text to binary converter and decryptor. Instantly translate plain text to 01010101 binary code and back securely with BinaryCipher PRO.">
-    <meta name="keywords" content="text to binary, binary to text, binary encryptor, binary decoder, 0101 converter, online binary tool">
+    <!-- SEO & Meta Tags -->
+    <title>BinaryCipher PRO | Ultimate Text, Binary, Hex & Decimal Encryptor</title>
+    <meta name="description" content="Next-generation professional online data encryption and conversion suite. Convert text to binary, hex, and decimal instantly.">
+    <meta name="keywords" content="text to binary, binary encryptor, hex converter, ascii decoder, cyber security tool, tanveer hussain, vexornull">
     <meta name="author" content="Tanveer Hussain">
     <meta name="robots" content="index, follow">
 
-    <!-- Open Graph / Social Media Meta Tags -->
-    <meta property="og:title" content="BinaryCipher PRO - Advanced Text & Binary Encryptor">
-    <meta property="og:description" content="Instantly convert plain text into binary code (01010) and decrypt it back with this professional online web tool.">
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="BinaryCipher PRO - Advanced Encryption Suite">
+    <meta property="og:description" content="Professional text-to-binary, hex, and decimal conversion web application.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://vexornull.github.io/">
 
     <!-- Favicon Link -->
     <link rel="icon" type="image/png" href="https://vexornull.github.io/favicon/favicon.png">
@@ -26,28 +25,46 @@
 </head>
 <body>
 
-    <div class="glow-bg"></div>
+    <!-- Matrix Background Canvas -->
+    <canvas id="matrixCanvas"></canvas>
+    <div class="overlay-glow"></div>
 
     <main class="container">
         <header>
-            <div class="logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
-            <h1>BinaryCipher <span class="pro-badge">PRO</span></h1>
-            <p class="subtitle">Next-gen enterprise text-to-binary encryption suite</p>
+            <div class="header-top">
+                <div class="logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <div class="live-toggle-wrapper" title="Toggle Live Auto-Conversion">
+                    <span class="live-label">LIVE</span>
+                    <label class="switch">
+                        <input type="checkbox" id="liveToggle" onchange="toggleLiveMode()">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <h1>BinaryCipher <span class="pro-badge">PRO v3.0</span></h1>
+            <p class="subtitle">Multi-Format Cyber Encryption & Translation Suite</p>
         </header>
+
+        <!-- Format Selector Tabs -->
+        <div class="format-tabs">
+            <button class="tab-btn active" onclick="setFormat('binary')"><i class="fa-solid fa-square-binary"></i> Binary (01)</button>
+            <button class="tab-btn" onclick="setFormat('hex')"><i class="fa-solid fa-hashtag"></i> Hexadecimal</button>
+            <button class="tab-btn" onclick="setFormat('decimal')"><i class="fa-solid fa-list-ol"></i> Decimal</button>
+        </div>
 
         <section class="input-group">
             <div class="label-wrapper">
-                <label for="inputText"><i class="fa-solid fa-terminal"></i> Input Data</label>
-                <span class="char-counter" id="inputCounter">0 chars</span>
+                <label for="inputText"><i class="fa-solid fa-terminal"></i> Source Input</label>
+                <span class="char-counter" id="inputCounter">0 chars | 0 words</span>
             </div>
-            <textarea id="inputText" placeholder="Enter plain text or binary codes (01001000)..." oninput="updateCounters()"></textarea>
+            <textarea id="inputText" placeholder="Enter text or encoded payload here..." oninput="handleInput()"></textarea>
         </section>
 
         <div class="btn-group">
-            <button id="encryptBtn" class="btn primary-btn" onclick="encryptText()">
+            <button id="encryptBtn" class="btn primary-btn" onclick="executeProcess('encrypt')">
                 <i class="fa-solid fa-lock"></i> Encrypt
             </button>
-            <button id="decryptBtn" class="btn success-btn" onclick="decryptText()">
+            <button id="decryptBtn" class="btn success-btn" onclick="executeProcess('decrypt')">
                 <i class="fa-solid fa-lock-open"></i> Decrypt
             </button>
             <button id="clearBtn" class="btn danger-btn" onclick="clearFields()">
@@ -57,20 +74,23 @@
 
         <section class="input-group output-section">
             <div class="label-wrapper">
-                <label for="outputText"><i class="fa-solid fa-square-binary"></i> Encrypted Result</label>
-                <button class="copy-btn" onclick="copyResult()" title="Copy to Clipboard">
-                    <i class="fa-regular fa-copy"></i> Copy
-                </button>
+                <label for="outputText"><i class="fa-solid fa-shield-cat"></i> Processed Output</label>
+                <div class="output-actions">
+                    <button class="action-icon-btn" onclick="downloadFile()" title="Download as .txt"><i class="fa-solid fa-download"></i></button>
+                    <button class="copy-btn" onclick="copyResult()" title="Copy to Clipboard">
+                        <i class="fa-regular fa-copy"></i> Copy
+                    </button>
+                </div>
             </div>
-            <textarea id="outputText" readonly placeholder="Encrypted output will appear here..."></textarea>
+            <textarea id="outputText" readonly placeholder="Encrypted payload results will render here..."></textarea>
         </section>
 
         <!-- Toast Notification -->
-        <div id="toast" class="toast">Copied to clipboard!</div>
+        <div id="toast" class="toast">Notification Message</div>
 
         <!-- Credit Section -->
         <footer class="footer">
-            <p>Engineered with ❤️ by <a href="https://instagram.com/vexornull" target="_blank">Tanveer Hussain</a></p>
+            <p>Engineered with ⚡ by <a href="https://instagram.com/vexornull" target="_blank">Tanveer Hussain</a></p>
         </footer>
     </main>
 
