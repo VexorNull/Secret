@@ -3,31 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BinaryCipher Pro - Advanced Text & Binary Encryptor</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>BinaryCipher PRO - Advanced Text to Binary Encryptor & Decryptor Online</title>
+    <meta name="description" content="Free online text to binary converter and decryptor. Instantly translate plain text to 01010101 binary code and back securely with BinaryCipher PRO.">
+    <meta name="keywords" content="text to binary, binary to text, binary encryptor, binary decoder, 0101 converter, online binary tool">
+    <meta name="author" content="Tanveer Hussain">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="BinaryCipher PRO - Advanced Text & Binary Encryptor">
+    <meta property="og:description" content="Instantly convert plain text into binary code (01010) and decrypt it back with this professional online web tool.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vexornull.github.io/">
+
     <!-- Favicon Link -->
     <link rel="icon" type="image/png" href="https://vexornull.github.io/favicon/favicon.png">
+    
+    <!-- Stylesheets & Icons -->
     <link rel="stylesheet" href="style.css">
-    <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
     <div class="glow-bg"></div>
 
-    <div class="container">
+    <main class="container">
         <header>
             <div class="logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
             <h1>BinaryCipher <span class="pro-badge">PRO</span></h1>
             <p class="subtitle">Next-gen enterprise text-to-binary encryption suite</p>
         </header>
 
-        <div class="input-group">
+        <section class="input-group">
             <div class="label-wrapper">
                 <label for="inputText"><i class="fa-solid fa-terminal"></i> Input Data</label>
                 <span class="char-counter" id="inputCounter">0 chars</span>
             </div>
             <textarea id="inputText" placeholder="Enter plain text or binary codes (01001000)..." oninput="updateCounters()"></textarea>
-        </div>
+        </section>
 
         <div class="btn-group">
             <button id="encryptBtn" class="btn primary-btn" onclick="encryptText()">
@@ -41,7 +55,7 @@
             </button>
         </div>
 
-        <div class="input-group output-section">
+        <section class="input-group output-section">
             <div class="label-wrapper">
                 <label for="outputText"><i class="fa-solid fa-square-binary"></i> Encrypted Result</label>
                 <button class="copy-btn" onclick="copyResult()" title="Copy to Clipboard">
@@ -49,16 +63,16 @@
                 </button>
             </div>
             <textarea id="outputText" readonly placeholder="Encrypted output will appear here..."></textarea>
-        </div>
+        </section>
 
         <!-- Toast Notification -->
         <div id="toast" class="toast">Copied to clipboard!</div>
 
         <!-- Credit Section -->
-        <div class="footer">
+        <footer class="footer">
             <p>Engineered with ❤️ by <a href="https://instagram.com/vexornull" target="_blank">Tanveer Hussain</a></p>
-        </div>
-    </div>
+        </footer>
+    </main>
 
     <script src="script.js"></script>
 </body>
