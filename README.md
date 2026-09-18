@@ -28,13 +28,12 @@
 
 ## 📂 Project Structure
 
+```text
 BinaryCipher-PRO/
 ├── index.html       # Main application layout & UI markup
 ├── style.css        # Cyber theme variables, glassmorphism & responsive styles
 └── script.js        # Core encryption engines, Matrix canvas & terminal logic
-
----
-
+```
 ## 🛠️ Technologies Used
 
 - **HTML5 / CSS3**: Modern glassmorphism design, CSS variables, and flexible layouts.
@@ -49,7 +48,7 @@ BinaryCipher-PRO/
 ## 🚀 Getting Started Locally
 
 1. Clone or download this repository to your local machine:
-   git clone https://github.com/vexornull/BinaryCipher-PRO.git
+   git clone https://github.com/vexornull/secret.git
 
 2. Open the project folder and launch `index.html` in any modern web browser.
    *(No complex server setup or build step required!)*
