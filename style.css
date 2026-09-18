@@ -18,7 +18,6 @@ body {
     position: relative;
 }
 
-/* Matrix Background Canvas */
 #matrixCanvas {
     position: fixed;
     top: 0;
@@ -43,20 +42,20 @@ body {
 }
 
 .container {
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(15, 23, 42, 0.88);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(56, 189, 248, 0.15);
-    padding: 30px;
+    border: 1px solid rgba(56, 189, 248, 0.18);
+    padding: 28px;
     border-radius: 24px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
     width: 100%;
-    max-width: 580px;
+    max-width: 600px;
     margin: 20px;
 }
 
 header {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 .header-top {
@@ -71,7 +70,12 @@ header {
     color: #38bdf8;
 }
 
-/* Live Toggle Switch Styles */
+.header-controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
 .live-toggle-wrapper {
     display: flex;
     align-items: center;
@@ -96,11 +100,7 @@ header {
     height: 18px;
 }
 
-.switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
+.switch input { opacity: 0; width: 0; height: 0; }
 
 .slider {
     position: absolute;
@@ -123,13 +123,8 @@ header {
     border-radius: 50%;
 }
 
-input:checked + .slider {
-    background-color: #38bdf8;
-}
-
-input:checked + .slider:before {
-    transform: translateX(14px);
-}
+input:checked + .slider { background-color: #38bdf8; }
+input:checked + .slider:before { transform: translateX(14px); }
 
 h1 {
     font-size: 24px;
@@ -159,8 +154,8 @@ h1 {
 /* Format Tabs */
 .format-tabs {
     display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
+    gap: 6px;
+    margin-bottom: 18px;
     background: rgba(2, 6, 23, 0.5);
     padding: 4px;
     border-radius: 12px;
@@ -172,8 +167,8 @@ h1 {
     background: transparent;
     border: none;
     color: #94a3b8;
-    padding: 8px;
-    font-size: 12px;
+    padding: 8px 4px;
+    font-size: 11.5px;
     font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
@@ -181,7 +176,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 5px;
 }
 
 .tab-btn.active {
@@ -191,7 +186,7 @@ h1 {
 }
 
 .input-group {
-    margin-bottom: 16px;
+    margin-bottom: 14px;
 }
 
 .label-wrapper {
@@ -210,20 +205,41 @@ label {
     gap: 6px;
 }
 
-label i {
-    color: #38bdf8;
+label i { color: #38bdf8; }
+
+/* Security Entropy Meter */
+.security-meter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.char-counter {
-    font-size: 11px;
-    color: #64748b;
+#securityText {
+    font-size: 10.5px;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.meter-bar {
+    width: 60px;
+    height: 5px;
+    background: #1e293b;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+#meterFill {
+    width: 0%;
+    height: 100%;
+    background: #ef4444;
+    transition: width 0.3s, background 0.3s;
 }
 
 textarea {
     width: 100%;
-    height: 110px;
+    height: 105px;
     padding: 12px 14px;
-    background: rgba(2, 6, 23, 0.7);
+    background: rgba(2, 6, 23, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.08);
     color: #f1f5f9;
     border-radius: 12px;
@@ -240,9 +256,20 @@ textarea:focus {
     background: rgba(2, 6, 23, 0.95);
 }
 
+.counter-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 4px;
+}
+
+.char-counter {
+    font-size: 11px;
+    color: #64748b;
+}
+
 .output-actions {
     display: flex;
-    gap: 6px;
+    gap: 5px;
 }
 
 .copy-btn, .action-icon-btn {
@@ -268,7 +295,7 @@ textarea:focus {
 .btn-group {
     display: flex;
     gap: 10px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
 }
 
 .btn {
@@ -291,30 +318,78 @@ textarea:focus {
     background: linear-gradient(135deg, #38bdf8, #0284c7);
     color: #020617;
 }
-.primary-btn:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(56, 189, 248, 0.3);
-}
+.primary-btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(56, 189, 248, 0.3); }
 
 .success-btn {
     background: linear-gradient(135deg, #10b981, #059669);
     color: #ffffff;
 }
-.success-btn:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
-}
+.success-btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3); }
 
 .danger-btn {
     background: rgba(239, 68, 68, 0.12);
     color: #ef4444;
     border: 1px solid rgba(239, 68, 68, 0.25);
 }
-.danger-btn:hover {
-    background: rgba(239, 68, 68, 0.2);
-    transform: translateY(-1px);
+.danger-btn:hover { background: rgba(239, 68, 68, 0.2); transform: translateY(-1px); }
+
+/* QR Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(2, 6, 23, 0.85);
+    backdrop-filter: blur(8px);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: #0f172a;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    max-width: 320px;
+    width: 100%;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.modal-header h3 {
+    font-size: 15px;
+    color: #38bdf8;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#qrcodeContainer {
+    background: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.qr-hint {
+    font-size: 11px;
+    color: #94a3b8;
 }
 
 /* Toast Popup */
@@ -334,9 +409,7 @@ textarea:focus {
     z-index: 1000;
 }
 
-.toast.show {
-    transform: translateX(-50%) translateY(0);
-}
+.toast.show { transform: translateX(-50%) translateY(0); }
 
 .footer {
     text-align: center;
@@ -353,6 +426,4 @@ textarea:focus {
     font-weight: 600;
 }
 
-.footer a:hover {
-    text-decoration: underline;
-}
+.footer a:hover { text-decoration: underline; }
