@@ -5,16 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO & Meta Tags -->
-    <title>BinaryCipher PRO | Ultimate Text, Binary, Hex & Decimal Encryptor</title>
-    <meta name="description" content="Next-generation professional online data encryption and conversion suite. Convert text to binary, hex, and decimal instantly.">
-    <meta name="keywords" content="text to binary, binary encryptor, hex converter, ascii decoder, cyber security tool, tanveer hussain, vexornull">
+    <title>BinaryCipher PRO v4.0 | Enterprise Crypto & Binary Suite</title>
+    <meta name="description" content="Next-generation professional online data encryption, QR code generation, and multi-format translation suite.">
+    <meta name="keywords" content="text to binary, binary encryptor, hex converter, qr code generator, cyber security tool, tanveer hussain, vexornull">
     <meta name="author" content="Tanveer Hussain">
     <meta name="robots" content="index, follow">
-
-    <!-- Open Graph Tags -->
-    <meta property="og:title" content="BinaryCipher PRO - Advanced Encryption Suite">
-    <meta property="og:description" content="Professional text-to-binary, hex, and decimal conversion web application.">
-    <meta property="og:type" content="website">
 
     <!-- Favicon Link -->
     <link rel="icon" type="image/png" href="https://vexornull.github.io/favicon/favicon.png">
@@ -22,6 +17,8 @@
     <!-- Stylesheets & Icons -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QR Code Library CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
 
@@ -33,31 +30,41 @@
         <header>
             <div class="header-top">
                 <div class="logo-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                <div class="live-toggle-wrapper" title="Toggle Live Auto-Conversion">
-                    <span class="live-label">LIVE</span>
-                    <label class="switch">
-                        <input type="checkbox" id="liveToggle" onchange="toggleLiveMode()">
-                        <span class="slider round"></span>
-                    </label>
+                <div class="header-controls">
+                    <button class="action-icon-btn" onclick="toggleAudio()" id="audioToggleBtn" title="Toggle Sound FX"><i class="fa-solid fa-volume-high"></i></button>
+                    <div class="live-toggle-wrapper" title="Toggle Live Auto-Conversion">
+                        <span class="live-label">LIVE</span>
+                        <label class="switch">
+                            <input type="checkbox" id="liveToggle" onchange="toggleLiveMode()">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
-            <h1>BinaryCipher <span class="pro-badge">PRO v3.0</span></h1>
-            <p class="subtitle">Multi-Format Cyber Encryption & Translation Suite</p>
+            <h1>BinaryCipher <span class="pro-badge">PRO v4.0</span></h1>
+            <p class="subtitle">Enterprise Crypto Suite & Universal Encoder</p>
         </header>
 
         <!-- Format Selector Tabs -->
         <div class="format-tabs">
-            <button class="tab-btn active" onclick="setFormat('binary')"><i class="fa-solid fa-square-binary"></i> Binary (01)</button>
-            <button class="tab-btn" onclick="setFormat('hex')"><i class="fa-solid fa-hashtag"></i> Hexadecimal</button>
+            <button class="tab-btn active" onclick="setFormat('binary')"><i class="fa-solid fa-square-binary"></i> Binary</button>
+            <button class="tab-btn" onclick="setFormat('hex')"><i class="fa-solid fa-hashtag"></i> Hex</button>
             <button class="tab-btn" onclick="setFormat('decimal')"><i class="fa-solid fa-list-ol"></i> Decimal</button>
+            <button class="tab-btn" onclick="setFormat('base64')"><i class="fa-solid fa-shield-keyhole"></i> Base64</button>
         </div>
 
         <section class="input-group">
             <div class="label-wrapper">
                 <label for="inputText"><i class="fa-solid fa-terminal"></i> Source Input</label>
-                <span class="char-counter" id="inputCounter">0 chars | 0 words</span>
+                <div class="security-meter">
+                    <span id="securityText">Entropy: Low</span>
+                    <div class="meter-bar"><div id="meterFill"></div></div>
+                </div>
             </div>
-            <textarea id="inputText" placeholder="Enter text or encoded payload here..." oninput="handleInput()"></textarea>
+            <textarea id="inputText" placeholder="Enter plain text or payload data..." oninput="handleInput()"></textarea>
+            <div class="counter-footer">
+                <span id="inputCounter">0 chars | 0 words</span>
+            </div>
         </section>
 
         <div class="btn-group">
@@ -76,6 +83,7 @@
             <div class="label-wrapper">
                 <label for="outputText"><i class="fa-solid fa-shield-cat"></i> Processed Output</label>
                 <div class="output-actions">
+                    <button class="action-icon-btn" onclick="openQRModal()" title="Generate QR Code"><i class="fa-solid fa-qrcode"></i></button>
                     <button class="action-icon-btn" onclick="downloadFile()" title="Download as .txt"><i class="fa-solid fa-download"></i></button>
                     <button class="copy-btn" onclick="copyResult()" title="Copy to Clipboard">
                         <i class="fa-regular fa-copy"></i> Copy
@@ -84,6 +92,18 @@
             </div>
             <textarea id="outputText" readonly placeholder="Encrypted payload results will render here..."></textarea>
         </section>
+
+        <!-- QR Code Modal Popup -->
+        <div id="qrModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fa-solid fa-qrcode"></i> Encrypted QR Code</h3>
+                    <button class="close-btn" onclick="closeQRModal()">&times;</button>
+                </div>
+                <div id="qrcodeContainer"></div>
+                <p class="qr-hint">Scan this code to instantly transfer data on mobile.</p>
+            </div>
+        </div>
 
         <!-- Toast Notification -->
         <div id="toast" class="toast">Notification Message</div>
