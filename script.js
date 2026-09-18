@@ -1,5 +1,6 @@
 let currentFormat = 'binary';
 let isLiveMode = false;
+let soundEnabled = true;
 
 // Matrix Background Animation Engine
 const canvas = document.getElementById('matrixCanvas');
@@ -41,7 +42,7 @@ function drawMatrix() {
 }
 setInterval(drawMatrix, 35);
 
-// Format Tab Selector
+// Format Selector & Audio Toggle
 function setFormat(format) {
     currentFormat = format;
     document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -51,7 +52,13 @@ function setFormat(format) {
     if (isLiveMode) handleInput();
 }
 
-// Live Mode Toggle
+function toggleAudio() {
+    soundEnabled = !soundEnabled;
+    let btn = document.getElementById('audioToggleBtn');
+    btn.innerHTML = soundEnabled ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark"></i>';
+    showToast(soundEnabled ? "Sound FX Enabled" : "Sound FX Muted");
+}
+
 function toggleLiveMode() {
     isLiveMode = document.getElementById('liveToggle').checked;
     playBeep(isLiveMode ? 800 : 400, 0.05);
@@ -59,12 +66,33 @@ function toggleLiveMode() {
     if (isLiveMode) handleInput();
 }
 
-// Input Handler for Counters & Live Execution
+// Input Handler with Entropy Security Meter
 function handleInput() {
     let input = document.getElementById("inputText").value;
     let charCount = input.length;
     let wordCount = input.trim() === "" ? 0 : input.trim().split(/\s+/).length;
     document.getElementById("inputCounter").innerText = `${charCount} chars | ${wordCount} words`;
+
+    // Calculate Entropy Strength
+    let fill = document.getElementById('meterFill');
+    let secText = document.getElementById('securityText');
+    if (charCount === 0) {
+        fill.style.width = '0%';
+        fill.style.background = '#ef4444';
+        secText.innerText = 'Entropy: Low';
+    } else if (charCount < 6) {
+        fill.style.width = '30%';
+        fill.style.background = '#f59e0b';
+        secText.innerText = 'Entropy: Weak';
+    } else if (charCount < 15) {
+        fill.style.width = '70%';
+        fill.style.background = '#38bdf8';
+        secText.innerText = 'Entropy: Secure';
+    } else {
+        fill.style.width = '100%';
+        fill.style.background = '#10b981';
+        secText.innerText = 'Entropy: Enterprise';
+    }
 
     if (isLiveMode && input.trim() !== "") {
         executeProcess('encrypt', true);
@@ -86,18 +114,18 @@ function executeProcess(action, silent = false) {
         if (action === 'encrypt') {
             if (currentFormat === 'binary') {
                 for (let i = 0; i < input.length; i++) {
-                    let bin = input.charCodeAt(i).toString(2);
-                    output += padZero(bin, 8) + " ";
+                    output += padZero(input.charCodeAt(i).toString(2), 8) + " ";
                 }
             } else if (currentFormat === 'hex') {
                 for (let i = 0; i < input.length; i++) {
-                    let hex = input.charCodeAt(i).toString(16);
-                    output += padZero(hex, 2).toUpperCase() + " ";
+                    output += padZero(input.charCodeAt(i).toString(16), 2).toUpperCase() + " ";
                 }
             } else if (currentFormat === 'decimal') {
                 for (let i = 0; i < input.length; i++) {
                     output += input.charCodeAt(i) + " ";
                 }
+            } else if (currentFormat === 'base64') {
+                output = btoa(unescape(encodeURIComponent(input)));
             }
             if (!silent) {
                 playBeep(880, 0.08);
@@ -105,19 +133,22 @@ function executeProcess(action, silent = false) {
             }
         } else {
             // Decryption Logic
-            let tokens = input.split(/\s+/);
-            for (let i = 0; i < tokens.length; i++) {
-                let decimalVal;
-                if (currentFormat === 'binary') {
-                    decimalVal = parseInt(tokens[i], 2);
-                } else if (currentFormat === 'hex') {
-                    decimalVal = parseInt(tokens[i], 16);
-                } else if (currentFormat === 'decimal') {
-                    decimalVal = parseInt(tokens[i], 10);
+            if (currentFormat === 'base64') {
+                output = decodeURIComponent(escape(atob(input)));
+            } else {
+                let tokens = input.split(/\s+/);
+                for (let i = 0; i < tokens.length; i++) {
+                    let decimalVal;
+                    if (currentFormat === 'binary') {
+                        decimalVal = parseInt(tokens[i], 2);
+                    } else if (currentFormat === 'hex') {
+                        decimalVal = parseInt(tokens[i], 16);
+                    } else if (currentFormat === 'decimal') {
+                        decimalVal = parseInt(tokens[i], 10);
+                    }
+                    if (isNaN(decimalVal)) throw new Error("Invalid Format");
+                    output += String.fromCharCode(decimalVal);
                 }
-                
-                if (isNaN(decimalVal)) throw new Error("Invalid Format");
-                output += String.fromCharCode(decimalVal);
             }
             if (!silent) {
                 playBeep(440, 0.08);
@@ -140,7 +171,31 @@ function padZero(str, targetLength) {
     return str;
 }
 
-// Copy to Clipboard with Audio Feedback
+// QR Code Modal Functions
+function openQRModal() {
+    let content = document.getElementById("outputText").value;
+    if (!content) {
+        showToast("No output available to generate QR!");
+        return;
+    }
+    document.getElementById("qrcodeContainer").innerHTML = "";
+    new QRCode(document.getElementById("qrcodeContainer"), {
+        text: content,
+        width: 160,
+        height: 160,
+        colorDark: "#020617",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+    });
+    document.getElementById("qrModal").style.display = "flex";
+    playBeep(950, 0.08);
+}
+
+function closeQRModal() {
+    document.getElementById("qrModal").style.display = "none";
+}
+
+// Copy & Download Functions
 function copyResult() {
     let outputText = document.getElementById("outputText");
     if (!outputText.value) {
@@ -153,7 +208,6 @@ function copyResult() {
     showToast("Copied to Clipboard!");
 }
 
-// Download Output as Text File
 function downloadFile() {
     let content = document.getElementById("outputText").value;
     if (!content) {
@@ -173,7 +227,6 @@ function downloadFile() {
     showToast("File Downloaded Successfully!");
 }
 
-// Reset Fields
 function clearFields() {
     document.getElementById("inputText").value = "";
     document.getElementById("outputText").value = "";
@@ -182,8 +235,9 @@ function clearFields() {
     showToast("Workspace Cleared!");
 }
 
-// Sci-Fi Audio Synthesis (Web Audio API)
+// Audio Synthesis
 function playBeep(freq, duration) {
+    if (!soundEnabled) return;
     try {
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         const oscillator = audioCtx.createOscillator();
@@ -191,7 +245,7 @@ function playBeep(freq, duration) {
 
         oscillator.type = 'sine';
         oscillator.frequency.value = freq;
-        gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(0.04, audioCtx.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
 
         oscillator.connect(gainNode);
@@ -199,12 +253,9 @@ function playBeep(freq, duration) {
 
         oscillator.start();
         oscillator.stop(audioCtx.currentTime + duration);
-    } catch (e) {
-        // AudioContext restricted in some browsers without user interaction
-    }
+    } catch (e) {}
 }
 
-// Toast Popup Trigger
 function showToast(message) {
     let toast = document.getElementById("toast");
     toast.innerText = message;
